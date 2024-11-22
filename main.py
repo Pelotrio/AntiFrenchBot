@@ -77,6 +77,7 @@ async def on_message(message):
 
 
 @bot.tree.command(name="set_general_channel", description="Sets the general channel ID.")
+@app_commands.checks.has_permissions(administrator=True)
 @app_commands.describe(channel_id="The ID of the general channel.")
 async def set_general_channel(interaction: discord.Interaction, channel_id: str) -> None:
     global GENERAL_CHANNEL_ID
@@ -86,6 +87,7 @@ async def set_general_channel(interaction: discord.Interaction, channel_id: str)
 
 
 @bot.tree.command(name="set_french_channel", description="Sets the French general channel ID.")
+@app_commands.checks.has_permissions(administrator=True)
 @app_commands.describe(channel_id="The ID of the French general channel.")
 async def set_french_channel(interaction: discord.Interaction, channel_id: str) -> None:
     global FRENCH_GENERAL_CHANNEL_ID
@@ -96,6 +98,7 @@ async def set_french_channel(interaction: discord.Interaction, channel_id: str) 
 
 
 @bot.tree.command(name="set_timeout_duration", description="Sets the timeout duration in minutes.")
+@app_commands.checks.has_permissions(administrator=True)
 @app_commands.describe(minutes="The timeout duration in minutes.")
 async def set_timeout_duration(interaction: discord.Interaction, minutes: int) -> None:
     global TIMEOUT_DURATION
