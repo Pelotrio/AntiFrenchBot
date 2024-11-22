@@ -1,6 +1,6 @@
 from datetime import timedelta
 import os
-from dotenv import load_dotenv  # Import load_dotenv
+from dotenv import load_dotenv
 
 import discord
 from discord.ext import commands
@@ -38,8 +38,8 @@ async def on_message(message):
         return
 
     # Filter messages to only respond in the general channel
-    # if message.channel.id != GENERAL_CHANNEL_ID:
-    #     return
+    if message.channel.id != GENERAL_CHANNEL_ID:
+        return
 
     # Detect language of the message if it is longer than 3 characters
     if len(message.content) > 3:
@@ -59,7 +59,8 @@ async def on_message(message):
             # Timeout the user for the specified duration if the bot has permission
             if message.guild.me.guild_permissions.moderate_members:
                 try:
-                    await message.author.timeout(timedelta(minutes=TIMEOUT_DURATION), reason="Sent a message in French in the general channel")
+                    await message.author.timeout(timedelta(minutes=TIMEOUT_DURATION),
+                                                 reason="Sent a message in French in the general channel")
                     print(f"User {message.author} has been timed out for {TIMEOUT_DURATION} minutes.")
                 except Exception as e:
                     print(f"Error timing out user: {e}")
@@ -90,7 +91,8 @@ async def set_french_channel(interaction: discord.Interaction, channel_id: str) 
     global FRENCH_GENERAL_CHANNEL_ID
     FRENCH_GENERAL_CHANNEL_ID = channel_id
     print(f"French general channel ID set to: {FRENCH_GENERAL_CHANNEL_ID}")
-    await interaction.response.send_message(f"French general channel has been set to <#{FRENCH_GENERAL_CHANNEL_ID}>.", ephemeral=True)
+    await interaction.response.send_message(f"French general channel has been set to <#{FRENCH_GENERAL_CHANNEL_ID}>.",
+                                            ephemeral=True)
 
 
 @bot.tree.command(name="set_timeout_duration", description="Sets the timeout duration in minutes.")
@@ -99,7 +101,8 @@ async def set_timeout_duration(interaction: discord.Interaction, minutes: int) -
     global TIMEOUT_DURATION
     TIMEOUT_DURATION = minutes
     print(f"Timeout duration set to: {TIMEOUT_DURATION} minutes")
-    await interaction.response.send_message(f"Timeout duration has been set to {TIMEOUT_DURATION} minutes.", ephemeral=True)
+    await interaction.response.send_message(f"Timeout duration has been set to {TIMEOUT_DURATION} minutes.",
+                                            ephemeral=True)
 
 
 bot.run(TOKEN)
