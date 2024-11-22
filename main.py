@@ -81,10 +81,6 @@ async def on_message(message):
 @app_commands.checks.has_permissions(administrator=True)
 @app_commands.describe(channel_id="The ID of the general channel.")
 async def set_general_channel(interaction: discord.Interaction, channel_id: str) -> None:
-    if interaction.guild is None:
-        await interaction.response.send_message(PRIVATE_MESSAGE_RESPONSE, ephemeral=True)
-        return
-
     global GENERAL_CHANNEL_ID
     GENERAL_CHANNEL_ID = int(channel_id)
     print(f"General channel ID set to: {GENERAL_CHANNEL_ID}")
@@ -95,10 +91,6 @@ async def set_general_channel(interaction: discord.Interaction, channel_id: str)
 @app_commands.checks.has_permissions(administrator=True)
 @app_commands.describe(channel_id="The ID of the French general channel.")
 async def set_french_channel(interaction: discord.Interaction, channel_id: str) -> None:
-    if interaction.guild is None:
-        await interaction.response.send_message(PRIVATE_MESSAGE_RESPONSE, ephemeral=True)
-        return
-
     global FRENCH_GENERAL_CHANNEL_ID
     FRENCH_GENERAL_CHANNEL_ID = int(channel_id)
     print(f"French general channel ID set to: {FRENCH_GENERAL_CHANNEL_ID}")
@@ -110,15 +102,25 @@ async def set_french_channel(interaction: discord.Interaction, channel_id: str) 
 @app_commands.checks.has_permissions(administrator=True)
 @app_commands.describe(minutes="The timeout duration in minutes.")
 async def set_timeout_duration(interaction: discord.Interaction, minutes: int) -> None:
-    if interaction.guild is None:
-        await interaction.response.send_message(PRIVATE_MESSAGE_RESPONSE, ephemeral=True)
-        return
-
     global TIMEOUT_DURATION
     TIMEOUT_DURATION = minutes
     print(f"Timeout duration set to: {TIMEOUT_DURATION} minutes")
     await interaction.response.send_message(f"Timeout duration has been set to {TIMEOUT_DURATION} minutes.",
                                             ephemeral=True)
+
+
+@bot.tree.error
+async def on_app_command_error(interaction: discord.Interaction, error: app_commands.AppCommandError):
+    try:
+        if isinstance(error, app_commands.MissingPermissions):
+            if not interaction.response.is_done():
+                await interaction.response.send_message("You do not have the required permissions to use this command.", ephemeral=True)
+        else:
+            if not interaction.response.is_done():
+                await interaction.response.send_message("An error occurred while processing the command.", ephemeral=True)
+            print(f"Unhandled command error: {error}")
+    except discord.HTTPException as e:
+        print(f"Error handling command error: {e}")
 
 
 bot.run(TOKEN)
