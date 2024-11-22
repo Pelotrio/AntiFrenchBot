@@ -80,7 +80,7 @@ async def on_message(message):
 @app_commands.describe(channel_id="The ID of the general channel.")
 async def set_general_channel(interaction: discord.Interaction, channel_id: str) -> None:
     global GENERAL_CHANNEL_ID
-    GENERAL_CHANNEL_ID = channel_id
+    GENERAL_CHANNEL_ID = int(channel_id)
     print(f"General channel ID set to: {GENERAL_CHANNEL_ID}")
     await interaction.response.send_message(f"General channel has been set to <#{GENERAL_CHANNEL_ID}>.", ephemeral=True)
 
@@ -89,7 +89,7 @@ async def set_general_channel(interaction: discord.Interaction, channel_id: str)
 @app_commands.describe(channel_id="The ID of the French general channel.")
 async def set_french_channel(interaction: discord.Interaction, channel_id: str) -> None:
     global FRENCH_GENERAL_CHANNEL_ID
-    FRENCH_GENERAL_CHANNEL_ID = channel_id
+    FRENCH_GENERAL_CHANNEL_ID = int(channel_id)
     print(f"French general channel ID set to: {FRENCH_GENERAL_CHANNEL_ID}")
     await interaction.response.send_message(f"French general channel has been set to <#{FRENCH_GENERAL_CHANNEL_ID}>.",
                                             ephemeral=True)
