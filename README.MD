@@ -1,4 +1,4 @@
-# 🤖🇫🇷❌ Language Moderation Bot
+# 🤖🇫🇷❌ Anti French Bot
 
 This 🤖 is designed to 🛡️ a Discord server by 🔍 detecting and 🚫 blocking messages written in 🇫🇷 (French) in a specific 🗨️ general chat 📺. If a message in 🇫🇷 is detected, the 🤖 will 🗑️ delete the message and ⏲️ timeout the user for a set period. The 🤖 also provides several ➡️ commands for server 🛠️ admins to customize its behavior.
 
@@ -31,13 +31,13 @@ The 🤖 provides the following ➡️ commands for server 🛠️ admins:
 1. 🌀 Clone this 📦 repository:
 
    ```sh
-   git clone
+   git clone https://github.com/Pelotrio/AntiFrenchBot.git
    ```
 
 2. Navigate to the project 📂 directory:
 
    ```sh
-   cd discord-language-moderation-bot
+   cd AntiFrenchBot
    ```
 
 3. Install the required 📦 packages:
@@ -57,7 +57,7 @@ The 🤖 provides the following ➡️ commands for server 🛠️ admins:
 Run the 🤖 with the following command:
 
 ```sh
-python bot.py
+python main.py
 ```
 
 Once the 🤖 is running, it will start 👀 monitoring the specified 📺 channel for 🇫🇷 messages and 🎬 act accordingly.
