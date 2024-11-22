@@ -13,6 +13,7 @@ TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 GENERAL_CHANNEL_ID = 1308875744843272275
 FRENCH_GENERAL_CHANNEL_ID = 1309133060700114985
 TIMEOUT_DURATION = 10  # Default timeout duration in minutes
+PRIVATE_MESSAGE_RESPONSE = "This command cannot be used in private messages."
 
 intents = discord.Intents.default()
 intents.messages = True
@@ -80,6 +81,10 @@ async def on_message(message):
 @app_commands.checks.has_permissions(administrator=True)
 @app_commands.describe(channel_id="The ID of the general channel.")
 async def set_general_channel(interaction: discord.Interaction, channel_id: str) -> None:
+    if interaction.guild is None:
+        await interaction.response.send_message(PRIVATE_MESSAGE_RESPONSE, ephemeral=True)
+        return
+
     global GENERAL_CHANNEL_ID
     GENERAL_CHANNEL_ID = int(channel_id)
     print(f"General channel ID set to: {GENERAL_CHANNEL_ID}")
@@ -90,6 +95,10 @@ async def set_general_channel(interaction: discord.Interaction, channel_id: str)
 @app_commands.checks.has_permissions(administrator=True)
 @app_commands.describe(channel_id="The ID of the French general channel.")
 async def set_french_channel(interaction: discord.Interaction, channel_id: str) -> None:
+    if interaction.guild is None:
+        await interaction.response.send_message(PRIVATE_MESSAGE_RESPONSE, ephemeral=True)
+        return
+
     global FRENCH_GENERAL_CHANNEL_ID
     FRENCH_GENERAL_CHANNEL_ID = int(channel_id)
     print(f"French general channel ID set to: {FRENCH_GENERAL_CHANNEL_ID}")
@@ -101,6 +110,10 @@ async def set_french_channel(interaction: discord.Interaction, channel_id: str) 
 @app_commands.checks.has_permissions(administrator=True)
 @app_commands.describe(minutes="The timeout duration in minutes.")
 async def set_timeout_duration(interaction: discord.Interaction, minutes: int) -> None:
+    if interaction.guild is None:
+        await interaction.response.send_message(PRIVATE_MESSAGE_RESPONSE, ephemeral=True)
+        return
+
     global TIMEOUT_DURATION
     TIMEOUT_DURATION = minutes
     print(f"Timeout duration set to: {TIMEOUT_DURATION} minutes")
